@@ -28,7 +28,6 @@ function App() {
 
   const handleSubmit = async () => {
     try {
-      // Convert the data to URL-encoded format
       const formBody = new URLSearchParams({
         email: formData.email,
         incomeGoal: formData.incomeGoal.toString(),
@@ -115,7 +114,7 @@ function App() {
         />
 
         <Header />
-        <VideoSection />
+        <VideoSection currentStep={step} isHighValueInvestor={isHighValueInvestor} />
 
         <div className="relative">
           <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl rounded-3xl"></div>
