@@ -1,6 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { PlayCircle, PauseCircle, Calendar } from 'lucide-react';
 
+declare global {
+  interface Window {
+    Calendly?: any;
+  }
+}
+
 export function NewStudent() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -9,6 +15,7 @@ export function NewStudent() {
   const [duration, setDuration] = useState(0);
   const [videoEnded, setVideoEnded] = useState(false);
   const [showCalendly, setShowCalendly] = useState(false);
+  const [calendlyLoaded, setCalendlyLoaded] = useState(false);
 
   const videoUrl = 'https://pub-cda2548da4a2411a995b49fb5416f4ca.r2.dev/Course%20Intro%201%20Draft%201.mp4';
 
@@ -70,6 +77,20 @@ export function NewStudent() {
       video.removeEventListener('pause', handlePause);
     };
   }, []);
+
+  useEffect(() => {
+    if (showCalendly && !calendlyLoaded) {
+      const script = document.createElement('script');
+      script.src = 'https://assets.calendly.com/assets/external/widget.js';
+      script.async = true;
+      script.onload = () => setCalendlyLoaded(true);
+      document.head.appendChild(script);
+
+      return () => {
+        document.head.removeChild(script);
+      };
+    }
+  }, [showCalendly, calendlyLoaded]);
 
   const togglePlayPause = (e?: React.MouseEvent) => {
     // If the click was on the progress bar or time display, don't toggle play/pause
@@ -246,15 +267,6 @@ export function NewStudent() {
           </div>
         </div>
       </div>
-
-      {/* Load Calendly Script */}
-      {showCalendly && (
-        <script 
-          type="text/javascript" 
-          src="https://assets.calendly.com/assets/external/widget.js" 
-          async 
-        />
-      )}
     </div>
   );
 }

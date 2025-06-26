@@ -8,13 +8,13 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: '/index.html'
+    }
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
-  },
+  preview: {
+    historyApiFallback: {
+      index: '/index.html'
+    }
+  }
 });
