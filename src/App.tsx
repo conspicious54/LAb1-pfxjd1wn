@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Header } from './components/Header';
 import { VideoSection } from './components/VideoSection';
 import { ProgressBar } from './components/ProgressBar';
@@ -6,9 +7,10 @@ import { StepOne } from './components/steps/StepOne';
 import { StepTwo } from './components/steps/StepTwo';
 import { StepThree } from './components/steps/StepThree';
 import { SkipCallModal } from './components/SkipCallModal';
+import { NewStudent } from './pages/NewStudent';
 import { FormData } from './types';
 
-function App() {
+function MainForm() {
   const [step, setStep] = useState(1);
   const [showSkipConfirmation, setShowSkipConfirmation] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -156,6 +158,17 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainForm />} />
+        <Route path="/newstudent" element={<NewStudent />} />
+      </Routes>
+    </Router>
   );
 }
 
